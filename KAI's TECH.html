@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KAiTO's TECH</title>
+  <link rel="stylesheet" href="CHRIS.css">
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- LOADING SCREEN -->
+  <div id="loading-screen">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- PARTICLE CANVAS -->
+  <canvas id="particles"></canvas>
+
+  <!-- SCROLL TO TOP -->
+  <button id="scrollTopBtn" title="Go to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+  <!-- MOBILE MENU BUTTON -->
+  <button class="menu-btn" onclick="toggleMenu()">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+
+  <!-- DARK MODE TOGGLE -->
+  <button id="themeToggle" class="theme-btn">
+    <i class="fa-solid fa-moon"></i>
+  </button>
+
+  <!-- NAVBAR -->
+  <header id="navbar">
+    <h1>KAiTO's TECH and Web Dev and Design</h1>
+    <nav id="menu">
+      <a href="#home">Home</a>
+      <a href="#about">About Me</a>
+      <a href="#contact">Contact</a>
+      <a href="#social">Social</a>
+      <a href="resume.pdf" download class="btn small">Download CV</a>
+    </nav>
+  </header>
+
+  <!-- MOVING BANNER -->
+  <div class="moving-banner">
+    <span>Web Developer • Designer • Creator • HTML • CSS • JS • UI/UX • Front‑End •</span>
+  </div>
+
+  <!-- HOME -->
+  <section id="home" class="section fade-in">
+    <div class="box">
+      <img class="pfp" src="file:///C:/Users/stormisboo/Pictures/561566814_24705308812428896_1613885600073996956_n.jpg" alt="Profile">
+      <h2>Welcome</h2>
+      <p>Hello! I’m <b>Kyle Christian</b>, a passionate web developer and designer.</p>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="section slide-up">
+    <div class="box">
+      <h2>About Me</h2>
+      <p>I design and build clean, modern, and responsive websites using HTML, CSS, and JavaScript.</p>
+      <p>I love creating smooth user experiences and modern UI/UX designs.</p>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section slide-up">
+    <div class="box">
+      <h2>Contact Me</h2>
+      <p><i class="fa-solid fa-envelope"></i> Kylecirang@gmail.com</p>
+      <p><i class="fa-solid fa-phone"></i> 123‑456‑7890</p>
+       <p><i class="fa-solid fa-location-dot"></i> matandang balara, Quezon City, Philippines</p>
+    </div>
+  </section>
+
+  <!-- SOCIAL LINKS -->
+  <section id="social" class="section fade-in">
+    <div class="box">
+      <h2>Social Links</h2>
+      <ul class="social-list">
+        <li><a href="https://www.facebook.com/havocdnd" target="_blank"><i class="fa-brands fa-facebook"></i> Facebook</a></li>
+        <li><a href="https://github.com/kylechris-coder" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a></li>
+        <li><a href="https://www.instagram.com/kmidnd_/" target="_blank"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
+        <li><a href="https://www.youtube.com/@kaito2k611" target="_blank"><i class="fa-brands fa-youtube"></i> YouTube</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 KAI TECH — Web Dev and Design</p>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    // DARK MODE TOGGLE
+    const themeBtn = document.getElementById("themeToggle");
+    themeBtn.onclick = () => {
+      document.body.classList.toggle("dark");
+      themeBtn.innerHTML = document.body.classList.contains("dark")
+        ? '<i class="fa-solid fa-sun"></i>'
+        : '<i class="fa-solid fa-moon"></i>';
+    };
+
+    // MOBILE MENU
+    function toggleMenu() {
+      document.getElementById("menu").classList.toggle("open");
+    }
+
+    // LOADING SCREEN
+    window.addEventListener("load", () => {
+      const loader = document.getElementById("loading-screen");
+      loader.classList.add("loaded");
+      setTimeout(() => loader.style.display = "none", 600);
+    });
+
+    // PARTICLES EFFECT
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+    function initParticles() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      particles = [];
+      for (let i = 0; i < 100; i++) {
+        particles.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*2+1, d: Math.random()*50+1 });
+      }
+    }
+    function drawParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "rgba(255,255,255,0.7)";
+      particles.forEach(p => { ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); });
+      moveParticles();
+    }
+    let angle = 0;
+    function moveParticles() {
+      angle += 0.01;
+      particles.forEach(p => {
+        p.y += Math.cos(angle + p.d) + 1 + p.r/2;
+        p.x += Math.sin(angle) * 2;
+        if(p.x>canvas.width+5 || p.x<-5 || p.y>canvas.height) { p.x=Math.random()*canvas.width; p.y=-10; }
+      });
+    }
+    function animateParticles(){ drawParticles(); requestAnimationFrame(animateParticles); }
+    window.addEventListener("resize", initParticles);
+    initParticles();
+    animateParticles();
+
+    // SMOOTH SCROLL
+    document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
+      anchor.addEventListener('click', function(e){
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    // SCROLL TO TOP BUTTON
+    const scrollTopBtn = document.getElementById("scrollTopBtn");
+    window.onscroll = () => { scrollTopBtn.style.display = (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) ? "block" : "none"; };
+    scrollTopBtn.onclick = () => { window.scrollTo({top:0, behavior:"smooth"}); };
+  </script>
+
+</body>
+</html>
